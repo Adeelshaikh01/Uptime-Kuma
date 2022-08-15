@@ -40,7 +40,7 @@ const options = {
     position: "bottom-right",
 };
 
-app.use(Toast, options);
+// app.use(Toast, options);
 app.component("Editable", contenteditable);
 app.component("FontAwesomeIcon", FontAwesomeIcon);
 

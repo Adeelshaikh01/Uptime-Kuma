@@ -8,11 +8,11 @@
                
                  <div class="row">
                       
-                       <router-link v-for="(item, index) in sortedMonitorList" :key="index" :to="monitorURL(item.id)"  
-                      class="item my-1 col-12 col-md-6 d-flex align-items-center justify-content-between px-3" :class="{ 'disabled': ! item.active }">
+                       <router-link v-for="(item, index) in sortedMonitorList" :key="index" :to="monitorURL(item.id)" 
+                      class="item my-1 col-12 col-md-6 d-flex align-items-center justify-content-between px-3"  :class="{ 'disabled': ! item.active }">
                     <div class="col-6 small-padding" :class="{ 'monitor-item': $root.userHeartbeatBar == 'bottom' || $root.userHeartbeatBar == 'none' }">
                  <div class="linkTitle">
-              <Uptime :monitor="item" type="24" :pill="true" />
+              <!-- <Uptime :monitor="item" type="24" :pill="true" /> -->
              {{ item.name }}
               </div>
               <div class="tags">
@@ -37,6 +37,13 @@ import Uptime from "../components/Uptime.vue";
 import { getMonitorRelativeURL } from "../util.ts";
 
 export default {
+    updated() {
+        // scroll to element
+        const el = document.getElementsByTagName("a")
+        let top = el[el.length -1].offsetTop
+         window.scrollTo(0, top);        
+
+    },
     components: {
         Uptime,
         HeartbeatBar,
@@ -97,7 +104,6 @@ export default {
                         return 1;
                     }
                 }
-
                 return m1.name.localeCompare(m2.name);
             });
 
@@ -112,8 +118,9 @@ export default {
                 });
             }
 
+            result.sort((e1,e2)=>e1.id > e2.id ? 1 : -1)
             return result;
-        },
+        }
     },
     mounted() {
         window.addEventListener("scroll", this.onScroll);
